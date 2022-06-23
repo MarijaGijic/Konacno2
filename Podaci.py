@@ -23,12 +23,23 @@ class Podaci:
     @property 
     def zdravstveni_radnici(self):
         return self.__zdravstveni_radnici
+    
+    @property 
+    def vakcine(self):
+        return self.__vakcine
+    
     @property 
     def doze(self):
         return self.__doze
     @property 
+    def doze1(self):
+        return self.__doze1
+    @property 
     def potvrde(self):
         return self.__potvrde
+    @property 
+    def potvrde1(self):
+        return self.__potvrde1
     @property 
     def digitalni_sertifikati(self):
         return self.__digitalni_sertifikati
@@ -36,9 +47,13 @@ class Podaci:
     def __init__(self):
         self.__lista_gradjana = []
         self.__zdravstveni_radnici = []
+        self.__vakcine = []
         self.__doze = []
+        self.__doze1 = []
         self.__potvrde = []
+        self.__potvrde1 = []
         self.__digitalni_sertifikati = []
+        
         
     
         
@@ -46,62 +61,89 @@ class Podaci:
     def napravi_pocetne(cls):
         podaci = Podaci()
         lista_gradjana = podaci.lista_gradjana
-        lista_gradjana.append(Gradjanin("121213121", "Marko", "Matic", "3-3-2002", "m", "13124232424"))
-        lista_gradjana.append(Gradjanin("1212323221", "Ana", "Miric", "2-3-2000", "z", "132131231123"))
-        lista_gradjana.append(Gradjanin("13211312321", "Slavko", "Suzic", "3-12-2001", "m", "21224232424"))
+        lista_gradjana.append(Gradjanin("1111111111111", "Marko", "Matic", "3-3-2002", "muski", "1111111111"))
+        lista_gradjana.append(Gradjanin("2222222222222", "Ana", "Miric", "2-3-2000", "zenski", "2222222222"))
+        lista_gradjana.append(Gradjanin("3333333333333", "Slavko", "Suzic", "3-12-2001", "muski", "3333333333"))
+        
         zdravstveni_radnici = podaci.zdravstveni_radnici
-        zdravstveni_radnici.append(ZdravstveniRadnik("12313132", "Mirko", "Savic", "2-2-1998", "m", "Bolnica"))
+        zdravstveni_radnici.append(ZdravstveniRadnik("4444444444444", "Mirko", "Savic", "2-2-1998", "muski", "Bolnica"))
+        
+        vakcine = podaci.vakcine
+        vakcine.append(Vakcina("Fajzer", "1234567890", "Nemacka", "12-2-2022"))
+        vakcine.append(Vakcina("Astra Zeneka", "1234567899", "Amerika", "2-2-2025"))
+        vakcine.append(Vakcina("Kineska", "1234567898", "Kina","5-5-2026"))
+        vakcine.append(Vakcina("Sputni V", "1234567897", "Rusija", "4-3-2027"))
         
         doza1 = lista_gradjana[0]
-        doza1.dodaj_primljene_doze(Doza("12-2-2021", Vakcina("Fajzer", "123123", "Nemacka", "12-2-2022"),
-                                        zdravstveni_radnici[0].ime,"US", lista_gradjana[0].ime))
-        doza1.dodaj_primljene_doze(Doza("12-2-2022", Vakcina("Astra zeneka", "111111", "Amerika", "12-2-2023"),
-                                        zdravstveni_radnici[0].ime,"US", lista_gradjana[0].ime))
+        doza1.dodaj_primljene_doze(Doza("12-2-2021", vakcine[0],
+                                        "{} {}".format(zdravstveni_radnici[0].ime,zdravstveni_radnici[0].prezime),
+                                        "US","{} {}".format(lista_gradjana[0].ime, lista_gradjana[0].prezime)))
+        
+        doza1.dodaj_primljene_doze(Doza("5-2-2021", vakcine[1],
+                                        "{} {}".format(zdravstveni_radnici[0].ime,zdravstveni_radnici[0].prezime),
+                                        "UK","{} {}".format(lista_gradjana[0].ime, lista_gradjana[0].prezime)))
+       
+        
+        
         
         doza2 = lista_gradjana[1]
-        doza2.dodaj_primljene_doze(Doza("2-2-2021", Vakcina("Fajzer", "123212", "Nemacka", "2-2-2023"),
-                                        zdravstveni_radnici[0].ime,"US", lista_gradjana[1].ime))
+        doza2.dodaj_primljene_doze(Doza("7-7-2021", vakcine[3],
+                                        "{} {}".format(zdravstveni_radnici[0].ime,zdravstveni_radnici[0].prezime),
+                                        "UK","{} {}".format(lista_gradjana[1].ime, lista_gradjana[1].prezime)))
         
         doza3 = lista_gradjana[2]
-        doza3.dodaj_primljene_doze(Doza("3-3-2022", Vakcina("Fajzer", "123123", "Nemacka", "2-2-2024"),
-                                        zdravstveni_radnici[0].ime,"US", lista_gradjana[2].ime))
+        doza3.dodaj_primljene_doze(Doza("6-2-2022", vakcine[2],
+                                        "{} {}".format(zdravstveni_radnici[0].ime,zdravstveni_radnici[0].prezime),
+                                        "Kina","{} {}".format(lista_gradjana[2].ime, lista_gradjana[2].prezime)))
         
         doze = podaci.doze
         doze.append(doza1.primljene_doze)
         doze.append(doza2.primljene_doze)
         doze.append(doza3.primljene_doze)
         
-        potvrda1 = lista_gradjana[0]
-        potvrda1.dodaj_potvrde_o_izvrsenoj_vakcinaciji(PotvrdaOIzvrsenojVakcinaciji("123213123", "12-2-2022", 
-                                                                                    doze[0], lista_gradjana[0].ime, zdravstveni_radnici[0].ime))
+        doze1 = podaci.doze1
+        for doza12 in doze:
+            for doza in doza12:
+                doze1.append(doza)
         
-        potvrda1.dodaj_potvrde_o_izvrsenoj_vakcinaciji(PotvrdaOIzvrsenojVakcinaciji("12322123", "12-2-2022", 
-                                                                                    doze[0], lista_gradjana[0].ime, zdravstveni_radnici[0].ime))
+        potvrda1 = lista_gradjana[0]
+        potvrda1.dodaj_potvrde_o_izvrsenoj_vakcinaciji(PotvrdaOIzvrsenojVakcinaciji("12345678", "5-5-2021", 
+                                                                                    doza1.primljene_doze[0], "{} {}".format(lista_gradjana[0].ime, lista_gradjana[0].prezime), 
+                                                                                    "{} {}".format(zdravstveni_radnici[0].ime, zdravstveni_radnici[0].prezime)))
+        
+        potvrda1.dodaj_potvrde_o_izvrsenoj_vakcinaciji(PotvrdaOIzvrsenojVakcinaciji("12345789", "8-2-2021", 
+                                                                                    doza1.primljene_doze[1], "{} {}".format(lista_gradjana[0].ime, lista_gradjana[0].prezime),
+                                                                                    "{} {}".format(zdravstveni_radnici[0].ime, zdravstveni_radnici[0].prezime)))
        
         potvrda2 = lista_gradjana[1]
-        potvrda2.dodaj_potvrde_o_izvrsenoj_vakcinaciji(PotvrdaOIzvrsenojVakcinaciji("223213123", "12-2-2023", 
-                                                                                    doze[1], lista_gradjana[1].ime, zdravstveni_radnici[0].ime))
+        potvrda2.dodaj_potvrde_o_izvrsenoj_vakcinaciji(PotvrdaOIzvrsenojVakcinaciji("22222222", "9-9-2021", 
+                                                                                    doza2.primljene_doze[0], "{} {}".format(lista_gradjana[1].ime, lista_gradjana[1].prezime),
+                                                                                    "{} {}".format(zdravstveni_radnici[0].ime, zdravstveni_radnici[0].prezime)))
         
         potvrda3 = lista_gradjana[2]
-        potvrda3.dodaj_potvrde_o_izvrsenoj_vakcinaciji(PotvrdaOIzvrsenojVakcinaciji("553213123", "12-2-2021", 
-                                                                                    doze[2], lista_gradjana[2].ime, zdravstveni_radnici[0].ime))
+        potvrda3.dodaj_potvrde_o_izvrsenoj_vakcinaciji(PotvrdaOIzvrsenojVakcinaciji("55555555", "12-2-2021", 
+                                                                                    doza3.primljene_doze[0], "{} {}".format(lista_gradjana[2].ime, lista_gradjana[2].prezime),
+                                                                                    "{} {}".format(zdravstveni_radnici[0].ime, zdravstveni_radnici[0].prezime)))
         
         potvrde = podaci.potvrde
         potvrde.append(potvrda1.potvrde_o_izvrsenoj_vakcinaciji)
         potvrde.append(potvrda2.potvrde_o_izvrsenoj_vakcinaciji)
         potvrde.append(potvrda3.potvrde_o_izvrsenoj_vakcinaciji)
         
+        potvrde1 = podaci.potvrde1
+        for potvrda12 in potvrde:
+            for potvrda in potvrda12:
+                potvrde1.append(potvrda)
         
         digitalni_sertifikati = podaci.digitalni_sertifikati
         
         sertifikat1 = lista_gradjana[0]
-        sertifikat1.dodaj_digitalni_sertifikat(DigitalniSertifikat("123123123", "12-2-2021", lista_gradjana[0].ime))
-
+        sertifikat1.dodaj_digitalni_sertifikat(DigitalniSertifikat("88888888", "12-2-2021", "{} {}".format(lista_gradjana[0].ime, lista_gradjana[0].prezime)))
         sertifikat2 = lista_gradjana[1]
-        sertifikat2.dodaj_digitalni_sertifikat(DigitalniSertifikat("223333223", "2-2-2022", lista_gradjana[1].ime))    
+        sertifikat2.dodaj_digitalni_sertifikat(DigitalniSertifikat("22222222", "2-2-2021", "{} {}".format(lista_gradjana[1].ime, lista_gradjana[1].prezime)))    
         
         sertifikat3 = lista_gradjana[2]
-        sertifikat3.dodaj_digitalni_sertifikat(DigitalniSertifikat("555565666", "2-2-2021", lista_gradjana[2].ime))
+        sertifikat3.dodaj_digitalni_sertifikat(DigitalniSertifikat("66666666", "3-3-2021", "{} {}".format(lista_gradjana[2].ime, lista_gradjana[2].prezime)))
         
         
         digitalni_sertifikati.append(sertifikat1.digitalni_sertifikat)
@@ -113,7 +155,7 @@ class Podaci:
     
  
     
-    __datoteka = "podaci_gradjani.txt"
+    __datoteka = "podaci_gradjani8.txt"
     
     @classmethod 
     def sacuvaj(cls, podaci):
